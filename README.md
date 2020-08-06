@@ -27,6 +27,17 @@
 - **test-client**	——	测试用消费侧
 - **test-server**	——	测试用提供侧
 
+##编码
++---------------+---------------+-----------------+-------------+
+|  Magic Number |  Package Type | Serializer Type | Data Length |
+|    4 bytes    |    4 bytes    |     4 bytes     |   4 bytes   |
++---------------+---------------+-----------------+-------------+
+|                          Data Bytes                           |
+|                   Length: ${Data Length}                      |
++---------------------------------------------------------------+
+首先是 4 字节魔数，表识一个协议包。接着是 Package Type，标明这是一个调用请求还是调用响应，Serializer Type 标明了实际数据使用的序列化器，这个服务端和客户端应当使用统一标准；
+Data Length 就是实际数据的长度，设置这个字段主要防止粘包，最后就是经过序列化后的实际数据，可能是 RpcRequest 也可能是 RpcResponse 经过序列化后的字节，取决于Package Type。
+
 
 
 ## 使用
